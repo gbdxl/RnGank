@@ -3,6 +3,8 @@
  */
 import React from 'react'
 import {StyleSheet,Text,Image,Button} from 'react-native'
+import fetchUrl from '../utils/fetchUrl'
+import {currentDate} from '../utils/getDate'
 
 export default class Home extends React.Component{
 
@@ -14,6 +16,16 @@ export default class Home extends React.Component{
         style={[style.icon,{tintColor:tintColor}]}
       />
     )
+  };
+
+  componentDidMount(){
+    fetch(fetchUrl.daily + currentDate())
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+      }).catch((error) => {
+      console.error(error)
+    }).done();
   }
 
   render(){
