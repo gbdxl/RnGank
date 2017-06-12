@@ -21,7 +21,7 @@ export default class Main extends React.Component{
   static navigationOptions = ({navigation}) => {
 
     return {
-      title:"首页"
+      header:null,
     }
   };
 
