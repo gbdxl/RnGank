@@ -17,7 +17,7 @@ export default class Discover extends React.Component {
         style={[style.icon, {tintColor: tintColor}]}
       />
     )
-  }
+  };
 
   constructor(props) {
     super(props);
