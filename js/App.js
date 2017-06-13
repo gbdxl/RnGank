@@ -4,8 +4,10 @@
 import React from 'react'
 import {View, Text, StatusBar, Platform} from 'react-native'
 import {TabNavigator, StackNavigator, Header} from 'react-navigation'
-import Main from './containers/Main'
 import config from './utils/Config'
+import Home from './containers/Home'
+import Discover from './containers/Discover'
+import Mine from './containers/Mine'
 
 export default class App extends React.Component {
 
@@ -20,11 +22,41 @@ export default class App extends React.Component {
   }
 }
 
-const MainStack = StackNavigator({
-  Main: {
-    screen: Main,
+const MainTab = TabNavigator({
+  Home: {
+    screen: Home,
+  },
+  Discover: {
+    screen: Discover
+  },
+  Mine: {
+    screen: Mine
   },
 }, {
+  tabBarPosition: 'bottom',
+  swipeEnabled: true,
+  lazy: true,
+  tabBarOptions: {
+    activeTintColor: 'black',
+    showIcon: true,
+    style: {
+      backgroundColor: config.themeColor,
+      height: 50,
+    },
+    indicatorStyle: {height: 0},
+    labelStyle: {
+      fontSize: 9,
+      margin:0,
+    },
+  }
+});
+
+const MainStack = StackNavigator({
+  Main: {
+    screen: MainTab,
+  },
+}, {
+  headerMode:'screen',
   navigationOptions: ({navigation}) => {
     let headerStyle = Platform.OS === 'android' ?
       {
@@ -40,6 +72,8 @@ const MainStack = StackNavigator({
       headerStyle,
       headerTitleStyle: {
         color: '#FFFFFF',
+        fontSize:20,
+        alignSelf:'center',
       }
     }
   }

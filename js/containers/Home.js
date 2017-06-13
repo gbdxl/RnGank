@@ -2,7 +2,7 @@
  * Created by drmk on 2017/6/9.
  */
 import React from 'react'
-import {StyleSheet, View, Text, Image, Button, FlatList, Animated} from 'react-native';
+import {StyleSheet, View, Text, Image, Button, FlatList, Animated, ToastAndroid} from 'react-native';
 import fetchUrl from '../utils/fetchUrl'
 import {getCurrentDate, getYesterdayFromDate} from '../utils/getDate'
 import config from '../utils/Config'
@@ -12,7 +12,7 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 export default class Home extends React.Component {
 
   static navigationOptions = {
-    tabBarLabel: '首页',
+    title: '首页',
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('../../assets/img/home.png')}
@@ -82,6 +82,10 @@ export default class Home extends React.Component {
     fetch(fetchUrl.daily + getCurrentDate())
       .then(response => response.json())
       .then(data => {
+        if (!data.category || data.category.length === 0) {
+          ToastAndroid.show("今日干货还未更新", ToastAndroid.LONG);
+          return;
+        }
         let result = this.translateData(data.results);
         this.setState({
           data: result,

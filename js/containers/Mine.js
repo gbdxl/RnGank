@@ -6,7 +6,6 @@ import {StyleSheet, Text, Button, Image} from 'react-native'
 
 export default class Mine extends React.Component {
   static navigationOptions = {
-    tabBarLabel: '我的',
     title:'我的',
     tabBarIcon: ({tintColor}) => (
       <Image

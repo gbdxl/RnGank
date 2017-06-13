@@ -4,13 +4,14 @@
 import React from 'react'
 import {StyleSheet, View, Text, TouchableOpacity, Image, FlatList, Animated} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
+import config from '../utils/Config'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 export default class Discover extends React.Component {
 
   static navigationOptions = {
-    tabBarLabel: '发现',
+    title: '发现',
     tabBarIcon: ({tintColor}) => (
       <Image
         source={require('../../assets/img/discovery.png')}
@@ -76,8 +77,8 @@ export default class Discover extends React.Component {
               {this.tabIcon[i].map((subItem, index) => {
                 return (
                   <TouchableOpacity style={style.headerTouch} key={index}>
-                      <Icon size={12} color='#fff' name={this.tabIcon[i][index]}/>
-                      <Text style={style.headerText}>{this.tabNames[i][index]}</Text>
+                    <Icon name={this.tabIcon[i][index]} size={40} color={config.themeColor}/>
+                    <Text style={style.headerText}>{this.tabNames[i][index]}</Text>
                   </TouchableOpacity>
                 );
               })}
@@ -101,16 +102,18 @@ const style = StyleSheet.create({
   },
   headerLine: {
     height: 0.5,
-    backgroundColor: 'black',
+    backgroundColor: 'gray',
   },
   btnRow: {
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
   headerTouch: {
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 8,
+    marginHorizontal:10,
   },
   headerIcon: {
     width: 50,
