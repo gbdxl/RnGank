@@ -47,7 +47,7 @@ export default class Home extends React.Component {
           onRefresh={this._onRefresh}
           // onEndReached={this._onLoadMore}
           data={this.state.data}
-          keyExtractor={(item, index) => item._id}
+          keyExtractor={(item, index) => index}
         />
       </View>
     );
@@ -119,7 +119,10 @@ export default class Home extends React.Component {
 
   _homeHeader = () => {
     return (
-      <Image style={style.header} source={{uri: this.state.headerUrl}}/>
+      this.state.headerUrl ?
+        <Image style={style.header} source={{uri: this.state.headerUrl}}/>
+        :
+        null
     );
   };
 
@@ -134,7 +137,7 @@ export default class Home extends React.Component {
 const style = StyleSheet.create({
   header: {
     width: config.screenWidth,
-    height: 230,
+    height: 430,
   },
   icon: {
     width: 22,

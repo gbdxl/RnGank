@@ -4,7 +4,9 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Provider} from 'react-redux';
+import {store} from './js/store/index';
 import {
   AppRegistry,
   StyleSheet,
@@ -16,10 +18,11 @@ import App from './js/App'
 export default class RnGank extends Component {
   render() {
     return (
-      <App/>
+      <Provider store={store}>
+        <App/>
+      </Provider>
     );
   }
 }
-
 
 AppRegistry.registerComponent('RnGank', () => RnGank);

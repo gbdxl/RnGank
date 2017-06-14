@@ -46,7 +46,7 @@ const MainTab = TabNavigator({
     indicatorStyle: {height: 0},
     labelStyle: {
       fontSize: 9,
-      margin:0,
+      margin: 0,
     },
   }
 });
@@ -56,7 +56,7 @@ const MainStack = StackNavigator({
     screen: MainTab,
   },
 }, {
-  headerMode:'screen',
+  headerMode: 'screen',
   navigationOptions: ({navigation}) => {
     let headerStyle = Platform.OS === 'android' ?
       {
@@ -72,8 +72,8 @@ const MainStack = StackNavigator({
       headerStyle,
       headerTitleStyle: {
         color: '#FFFFFF',
-        fontSize:20,
-        alignSelf:'center',
+        fontSize: 20,
+        alignSelf: 'center',
       }
     }
   }

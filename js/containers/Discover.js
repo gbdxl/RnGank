@@ -2,13 +2,26 @@
  * Created by drmk on 2017/6/9.
  */
 import React from 'react'
-import {StyleSheet, View, Text, TouchableOpacity, Image, FlatList, Animated} from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  Animated,
+  TouchableNativeFeedback,
+  ActivityIndicator
+} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
-import config from '../utils/Config'
+import config from '../utils/Config';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as Actions from '../actions/requestRandomData';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-export default class Discover extends React.Component {
+class Discover extends React.Component {
 
   static navigationOptions = {
     title: '发现',
@@ -24,52 +37,85 @@ export default class Discover extends React.Component {
     super(props);
     this.tabNames = [['Android', 'iOS', '前端', 'App'], ['休息视频', '拓展资源', '瞎推荐', '福利']];
     this.tabIcon = [['logo-android', 'logo-apple', 'logo-chrome', 'ios-apps'], ['ios-film', 'ios-book', 'ios-radio', 'ios-images']];
-    this.state = {
-      data: [],
-      refreshing: false,
-      loading: false,
-    };
+    this.tabColor = [['rgb(141,192,89)', '#000', 'rgb(51,154,237)', 'rgb(249,89,58)'], ['#9370db', '#00ced1', '#ffa500', 'lightpink']];
+  }
+
+  componentDidMount() {
+    this.props.actions.fetchLocalRandomData();
   }
 
   render() {
     return <View style={{flex: 1}}>
       <AnimatedFlatList
         ListHeaderComponent={this._renderHeader}
-        // ListFooterComponent={this._renderFooter}
-        // ListSeparatorComponent={this._renderSeparator}
-        // renderItem={this._renderItem}
-        refreshing={false}
+        ListFooterComponent={this._renderFooter}
+        ItemSeparatorComponent={this._renderSeparator}
+        contentContainerStyle={{backgroundColor: 'white'}}
+        renderItem={this._renderItem}
+        refreshing={this.props.loading}
         onRefresh={this._onRefresh}
         onEndReached={this._onLoadMore}
-        data={this.state.data}
-        key={(item, index) => index}
+        onEndReachedThreshold={0.5}
+        data={this.props.dataSource}
+        keyExtractor={(item, index) => index}
       />
     </View>;
   };
 
   _onLoadMore = () => {
-
+    if (!this.props.isRenderFooter && !this.props.loading) {
+      this.props.actions.fetchRandomData(true);
+    }
   };
 
   _onRefresh = () => {
-
+    this.props.actions.fetchRandomData();
   };
 
-  _renderItem = () => {
+  _renderItem = (data) => {
+    return (
+      <TouchableNativeFeedback
+        overflow="hidden"
+        onPress={this._onItemPress}>
+        <View style={style.itemContainer}>
+          <View style={style.itemTextContainer}>
+            <Text style={style.itemTextTitle} numberOfLines={2}>{data.item.desc}</Text>
 
+            <View style={style.itemSubTextContainer}>
+              <Icon name="ios-pricetag-outline" color='gray'/>
+              <Text style={style.itemSubText}>{data.item.type}</Text>
+              <Icon name="ios-create-outline" color='gray'/>
+              <Text style={style.itemSubText}>{data.item.who ? data.item.who : 'null'}</Text>
+              <Icon name="ios-time-outline" color='gray'/>
+              <Text style={style.itemSubText}>{data.item.publishedAt.substring(0, 10)}</Text>
+            </View>
+          </View>
+
+          {(data.item.images) ?
+            <Image style={style.itemImage} source={{uri: data.item.images[0]}}/>
+            :
+            <Image style={style.itemImage} source={require('../../assets/img/user_article_no_data.png')}/>
+          }
+        </View>
+      </TouchableNativeFeedback>
+    );
   };
 
   _renderSeparator = () => {
-
+    return <View style={style.separator}/>
   };
 
   _renderFooter = () => {
-
+    return (
+      this.props.isRenderFooter ? <View style={style.footer}>
+        <ActivityIndicator color={config.themeColor} size='small'/>
+        <Text style={{fontSize: 14, color: 'gray', marginLeft: 5}}>加载更多数据中...</Text>
+      </View> : null
+    );
   };
 
   _renderHeader = () => {
     return <View style={style.headerContainer}>
-      <View style={style.headerLine}/>
       {
         this.tabIcon.map((item, i) => {
           return (
@@ -77,7 +123,7 @@ export default class Discover extends React.Component {
               {this.tabIcon[i].map((subItem, index) => {
                 return (
                   <TouchableOpacity style={style.headerTouch} key={index}>
-                    <Icon name={this.tabIcon[i][index]} size={40} color={config.themeColor}/>
+                    <Icon name={this.tabIcon[i][index]} size={40} color={this.tabColor[i][index]}/>
                     <Text style={style.headerText}>{this.tabNames[i][index]}</Text>
                   </TouchableOpacity>
                 );
@@ -86,8 +132,11 @@ export default class Discover extends React.Component {
           )
         })
       }
-      <View style={style.headerLine}/>
     </View>
+  };
+
+  _onItemPress = (info) => {
+    console.log(info);
   };
 }
 
@@ -100,20 +149,16 @@ const style = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: 'white',
   },
-  headerLine: {
-    height: 0.5,
-    backgroundColor: 'gray',
-  },
   btnRow: {
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
   headerTouch: {
-    flex:1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 8,
-    marginHorizontal:10,
+    marginHorizontal: 10,
   },
   headerIcon: {
     width: 50,
@@ -123,5 +168,69 @@ const style = StyleSheet.create({
     fontSize: 14,
     color: 'black',
     marginTop: 5,
+  },
+  separator: {
+    flex: 1,
+    height: 4,
+    backgroundColor: 'transparent',
+  },
+  footer: {
+    height: 50,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  itemContainer: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  itemTextContainer: {
+    flex: 8,
+    justifyContent: 'space-between',
+    marginVertical: 5,
+    paddingHorizontal: 20,
+  },
+  itemTextTitle: {
+    fontSize: 14,
+    color: 'black',
+  },
+  itemSubTextContainer: {
+    flexDirection: 'row',
+    marginVertical: 15,
+  },
+  itemSubText: {
+    fontSize: 10,
+    marginRight: 20,
+    marginLeft: 5,
+    color: 'gray',
+  },
+  itemImage: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+    marginRight: 10,
+    resizeMode: 'cover',
   }
 });
+
+const mapStateToProps = (state) => {
+  "use strict";
+  return {
+    dataSource: state.randomDataState.dataSource,
+    loading: state.randomDataState.loading,
+    error: state.randomDataState.error,
+    isRenderFooter: state.randomDataState.isRenderFooter
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  "use strict";
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Discover);
