@@ -5,7 +5,8 @@
 
 import {combineReducers} from 'redux';
 import randomDataState from './randomDataState';
+import homeDataState from './homeDataState'
 
 export default combineReducers({
-  randomDataState,
+  randomDataState,homeDataState
 })
