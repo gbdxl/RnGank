@@ -10,6 +10,9 @@ const initialState = {
   iosData:[],
   videoData:[],
   recommendData:[],
+  appData:[],
+  foregroundData:[],
+  developData:[],
   loading:false,
   isUpdate:false,
 };
@@ -30,6 +33,9 @@ export default function homeDataState(state = initialState, action) {
         iosData:action.results.iOS,
         videoData:action.results.休息视频,
         recommendData:action.results.瞎推荐,
+        appData:action.results.App,
+        foregroundData:action.results.前端,
+        developData:action.results.拓展资源,
       };
     case Types.FETCH_HOME_DATA_FAILURE:
       return{

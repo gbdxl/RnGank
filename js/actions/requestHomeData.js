@@ -58,6 +58,7 @@ export function fetchData() {
           // data.saveData(data);
           dispatch(fetchSuccess(data));
         } else {
+          Toast.show("今日干货尚未更新");
           dispatch(fetchFailure());
         }
       }).catch((error) => {
