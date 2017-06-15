@@ -37,7 +37,7 @@ export function fetchLocalHomeData() {
   return (dispatch) => {
     let dao = new HomeDao();
     dao.getLocalData().then((data) => {
-      dispatch(fetchSuccess(data));
+      dispatch(fetchSuccess(data.content));
     }).catch((error) => {
       dispatch(fetchData());
     })
@@ -47,7 +47,7 @@ export function fetchLocalHomeData() {
 export function fetchData() {
   const url = fetchUrl.daily + getCurrentDate();
 
-  return function fetchDataFromNet(dispatch) {
+  function fetchDataFromNet(dispatch) {
     fetchWithTimeout(5000, fetch(url))
       .then((response) => response.json())
       .then((data) => {
@@ -71,7 +71,7 @@ export function fetchData() {
 
       if (data.time === getCurrentDate()) {
         Toast.show("已经是最新数据了");
-        dispatch(fetchSuccess(data));
+        dispatch(fetchSuccess(data.content));
       } else {
         fetchDataFromNet(dispatch);
       }

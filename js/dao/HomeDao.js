@@ -9,9 +9,11 @@ export default class HomeDao {
 
   saveData = (data) => {
     try {
-      let json = JSON.stringify({content: data});
-      json["time"] = getCurrentDate();
-      AsyncStorage.setItem(HOME_DATA, json);
+      let json = {
+        time: getCurrentDate(),
+        content: data
+      };
+      AsyncStorage.setItem(HOME_DATA, JSON.stringify({content: json}));
     } catch (error) {
       console.error(error);
     }
@@ -23,7 +25,7 @@ export default class HomeDao {
         if (!error) {
           const json = JSON.parse(result);
           if (json)
-            resolve(json.content);
+            resolve(json);
           else
             reject(null);
         } else {
