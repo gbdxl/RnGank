@@ -46,11 +46,16 @@ class Home extends React.Component {
           sections={[
             {data: this.props.androidData, key: 0,title:"Android"},
             {data: this.props.iosData, key: 1,title:"ios"},
-            {data: this.props.foregroundData, key: 2,title:"前端"},
-            {data: this.props.videoData, key: 3,title:"休息视频"},
-            {data: this.props.developData, key: 4,title:"拓展资源"},
-            {data: this.props.appData, key: 5,title:"App"},
-            {data: this.props.recommendData, key: 6,title:"瞎推荐"},
+              this.props.foregroundData?
+                {data: this.props.foregroundData, key: 2,title:"前端"}:null,
+            this.props.videoData?
+              {data: this.props.videoData, key: 3,title:"休息视频"}:null,
+            this.props.developData?
+              {data: this.props.developData, key: 4,title:"拓展资源"}:null,
+            this.props.appData?
+              {data: this.props.appData, key: 5,title:"App"}:null,
+            this.props.recommendData?
+              {data: this.props.recommendData, key: 6,title:"瞎推荐"}:null
           ]}
           keyExtractor={(item, index) => index}
         />

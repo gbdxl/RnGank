@@ -18,6 +18,7 @@ import config from '../utils/Config';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as Actions from '../actions/requestRandomData';
+import WebViewPage from './WebViewPage'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -136,7 +137,10 @@ class Discover extends React.Component {
   };
 
   _onItemPress = (info) => {
-    console.log(info);
+    this.props.navigator.push({
+      component:WebViewPage,
+      args:{info}
+    })
   };
 }
 

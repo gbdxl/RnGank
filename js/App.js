@@ -8,6 +8,7 @@ import config from './utils/Config'
 import Home from './containers/Home'
 import Discover from './containers/Discover'
 import Mine from './containers/Mine'
+import WebViewPage from './containers/WebViewPage'
 
 export default class App extends React.Component {
 
@@ -55,6 +56,9 @@ const MainStack = StackNavigator({
   Main: {
     screen: MainTab,
   },
+  WebViewPage:{
+    screen: WebViewPage
+  }
 }, {
   headerMode: 'screen',
   navigationOptions: ({navigation}) => {

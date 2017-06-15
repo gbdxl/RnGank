@@ -30,9 +30,7 @@ function fetchFailure() {
 }
 
 function isValidData(responseData) {
-  if (responseData.category.length > 0)
-    return true;
-  return false;
+  return responseData.category.length > 0;
 }
 
 export function fetchLocalHomeData() {
@@ -49,13 +47,13 @@ export function fetchLocalHomeData() {
 export function fetchData() {
   const url = fetchUrl.daily + getCurrentDate();
 
-  function fetchDataFromNet(dispatch) {
+  return function fetchDataFromNet(dispatch) {
     fetchWithTimeout(5000, fetch(url))
       .then((response) => response.json())
       .then((data) => {
         if (isValidData(data)) {
           Toast.show("欢迎阅读今日干货");
-          // data.saveData(data);
+          data.saveData(data);
           dispatch(fetchSuccess(data));
         } else {
           Toast.show("今日干货尚未更新");

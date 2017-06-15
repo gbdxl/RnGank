@@ -25,4 +25,5 @@ export default class RnGank extends Component {
   }
 }
 
+
 AppRegistry.registerComponent('RnGank', () => RnGank);

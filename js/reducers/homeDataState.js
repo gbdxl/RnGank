@@ -28,14 +28,14 @@ export default function homeDataState(state = initialState, action) {
       return{
         ...state,
         loading:false,
-        headerUrl:action.results.福利[0].url,
-        androidData:action.results.Android,
-        iosData:action.results.iOS,
-        videoData:action.results.休息视频,
-        recommendData:action.results.瞎推荐,
-        appData:action.results.App,
-        foregroundData:action.results.前端,
-        developData:action.results.拓展资源,
+        headerUrl:action.results.福利[0].url?action.results.福利[0].url:"",
+        androidData:action.results.Android?action.results.Android:[],
+        iosData:action.results.iOS?action.results.iOS:[],
+        videoData:action.results.休息视频?action.results.休息视频:[],
+        recommendData:action.results.瞎推荐?action.results.瞎推荐:[],
+        appData:action.results.App?action.results.App:[],
+        foregroundData:action.results.前端?action.results.前端:[],
+        developData:action.results.拓展资源?action.results.拓展资源:[],
       };
     case Types.FETCH_HOME_DATA_FAILURE:
       return{
