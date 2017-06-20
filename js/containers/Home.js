@@ -69,7 +69,7 @@ class Home extends React.Component {
 
   _renderItem = (info) => {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1}} onPress={(info)=>{this.props.nativegation.navigate('WebViewPage')}}>
         <Text style={style.itemText}>{info.item.desc}</Text>
       </View>
     );

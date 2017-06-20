@@ -15,8 +15,8 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import config from '../utils/Config';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import * as Actions from '../actions/requestRandomData';
 import WebViewPage from './WebViewPage'
 
@@ -73,27 +73,27 @@ class Discover extends React.Component {
     this.props.actions.fetchRandomData();
   };
 
-  _renderItem = (data) => {
+  _renderItem = ({item}) => {
     return (
       <TouchableNativeFeedback
         overflow="hidden"
-        onPress={this._onItemPress}>
+        onPress={() => this._onItemPress(item)}>
         <View style={style.itemContainer}>
           <View style={style.itemTextContainer}>
-            <Text style={style.itemTextTitle} numberOfLines={2}>{data.item.desc}</Text>
+            <Text style={style.itemTextTitle} numberOfLines={2}>{item.desc}</Text>
 
             <View style={style.itemSubTextContainer}>
               <Icon name="ios-pricetag-outline" color='gray'/>
-              <Text style={style.itemSubText}>{data.item.type}</Text>
+              <Text style={style.itemSubText}>{item.type}</Text>
               <Icon name="ios-create-outline" color='gray'/>
-              <Text style={style.itemSubText}>{data.item.who ? data.item.who : 'null'}</Text>
+              <Text style={style.itemSubText}>{item.who ? item.who : 'null'}</Text>
               <Icon name="ios-time-outline" color='gray'/>
-              <Text style={style.itemSubText}>{data.item.publishedAt.substring(0, 10)}</Text>
+              <Text style={style.itemSubText}>{item.publishedAt.substring(0, 10)}</Text>
             </View>
           </View>
 
-          {(data.item.images) ?
-            <Image style={style.itemImage} source={{uri: data.item.images[0]}}/>
+          {(item.images) ?
+            <Image style={style.itemImage} source={{uri: item.images[0]}}/>
             :
             <Image style={style.itemImage} source={require('../../assets/img/user_article_no_data.png')}/>
           }
@@ -136,11 +136,9 @@ class Discover extends React.Component {
     </View>
   };
 
-  _onItemPress = (info) => {
-    this.props.navigator.push({
-      component:WebViewPage,
-      args:{info}
-    })
+  _onItemPress = (item) => {
+    // this.props.navigation.navigate('WebViewPage', {uri: item.url})
+    this.props.navigator.jumpTo({name: "MainActivity"});
   };
 }
 

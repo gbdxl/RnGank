@@ -53,7 +53,7 @@ export function fetchData() {
       .then((data) => {
         if (isValidData(data)) {
           Toast.show("欢迎阅读今日干货");
-          data.saveData(data);
+          // data.saveData(data);
           dispatch(fetchSuccess(data));
         } else {
           Toast.show("今日干货尚未更新");

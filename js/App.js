@@ -2,13 +2,14 @@
  * Created by drmk on 2017/6/9.
  */
 import React from 'react'
-import {View, Text, StatusBar, Platform} from 'react-native'
-import {TabNavigator, StackNavigator, Header} from 'react-navigation'
+import { View, TouchableOpacity, StatusBar, Platform } from 'react-native'
+import { TabNavigator, StackNavigator, Header } from 'react-navigation'
 import config from './utils/Config'
 import Home from './containers/Home'
 import Discover from './containers/Discover'
 import Mine from './containers/Mine'
 import WebViewPage from './containers/WebViewPage'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class App extends React.Component {
 
@@ -56,7 +57,7 @@ const MainStack = StackNavigator({
   Main: {
     screen: MainTab,
   },
-  WebViewPage:{
+  WebViewPage: {
     screen: WebViewPage
   }
 }, {
@@ -72,8 +73,20 @@ const MainStack = StackNavigator({
       {
         backgroundColor: config.themeColor,
       };
+    let headerLeft;
+    if (navigation.state.routeName !== 'Main') {
+      headerLeft = (
+        <TouchableOpacity onPress={() => {
+          navigation.goBack()
+        }}>
+          <View style={{padding: 12}}>
+            <Icon name={'ios-arrow-back-outline'} size={25} color='white'/>
+          </View>
+        </TouchableOpacity>)
+    }
     return {
       headerStyle,
+      headerLeft,
       headerTitleStyle: {
         color: '#FFFFFF',
         fontSize: 20,
