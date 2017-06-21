@@ -3,10 +3,11 @@
  */
 'use strict';
 
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import randomDataState from './randomDataState';
 import homeDataState from './homeDataState'
+import categoryDataState from './categoryDataState'
 
 export default combineReducers({
-  randomDataState,homeDataState
-})
+  randomDataState, homeDataState, categoryDataState
+});
