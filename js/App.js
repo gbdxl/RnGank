@@ -9,13 +9,14 @@ import Home from './containers/Home'
 import Discover from './containers/Discover'
 import Mine from './containers/Mine'
 import WebViewPage from './containers/WebViewPage'
+import GirlsPage from './containers/GirlsPage'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class App extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <StatusBar translucent={true}
                    backgroundColor={'transparent'}/>
         <MainStack />
@@ -45,7 +46,7 @@ const MainTab = TabNavigator({
       backgroundColor: config.themeColor,
       height: 50,
     },
-    indicatorStyle: {height: 0},
+    indicatorStyle: { height: 0 },
     labelStyle: {
       fontSize: 9,
       margin: 0,
@@ -59,10 +60,13 @@ const MainStack = StackNavigator({
   },
   WebViewPage: {
     screen: WebViewPage
+  },
+  GirlsPage: {
+    screen: GirlsPage
   }
 }, {
   headerMode: 'screen',
-  navigationOptions: ({navigation}) => {
+  navigationOptions: ({ navigation }) => {
     let headerStyle = Platform.OS === 'android' ?
       {
         backgroundColor: config.themeColor,
@@ -79,7 +83,7 @@ const MainStack = StackNavigator({
         <TouchableOpacity onPress={() => {
           navigation.goBack()
         }}>
-          <View style={{padding: 12}}>
+          <View style={{ padding: 12 }}>
             <Icon name={'ios-arrow-back-outline'} size={25} color='white'/>
           </View>
         </TouchableOpacity>)

@@ -26,10 +26,10 @@ class Discover extends React.Component {
 
   static navigationOptions = {
     title: '发现',
-    tabBarIcon: ({tintColor}) => (
+    tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('../../assets/img/discovery.png')}
-        style={[style.icon, {tintColor: tintColor}]}
+        style={[style.icon, { tintColor: tintColor }]}
       />
     )
   };
@@ -46,12 +46,12 @@ class Discover extends React.Component {
   }
 
   render() {
-    return <View style={{flex: 1}}>
+    return <View style={{ flex: 1 }}>
       <AnimatedFlatList
         ListHeaderComponent={this._renderHeader}
         ListFooterComponent={this._renderFooter}
         ItemSeparatorComponent={this._renderSeparator}
-        contentContainerStyle={{backgroundColor: 'white'}}
+        contentContainerStyle={{ backgroundColor: 'white' }}
         renderItem={this._renderItem}
         refreshing={this.props.loading}
         onRefresh={this._onRefresh}
@@ -73,7 +73,7 @@ class Discover extends React.Component {
     this.props.actions.fetchRandomData();
   };
 
-  _renderItem = ({item}) => {
+  _renderItem = ({ item }) => {
     return (
       <TouchableNativeFeedback
         overflow="hidden"
@@ -93,7 +93,7 @@ class Discover extends React.Component {
           </View>
 
           {(item.images) ?
-            <Image style={style.itemImage} source={{uri: item.images[0]}}/>
+            <Image style={style.itemImage} source={{ uri: item.images[0] }}/>
             :
             <Image style={style.itemImage} source={require('../../assets/img/user_article_no_data.png')}/>
           }
@@ -110,7 +110,7 @@ class Discover extends React.Component {
     return (
       this.props.isRenderFooter ? <View style={style.footer}>
         <ActivityIndicator color={config.themeColor} size='small'/>
-        <Text style={{fontSize: 14, color: 'gray', marginLeft: 5}}>加载更多数据中...</Text>
+        <Text style={{ fontSize: 14, color: 'gray', marginLeft: 5 }}>加载更多数据中...</Text>
       </View> : null
     );
   };
@@ -123,7 +123,7 @@ class Discover extends React.Component {
             <View style={style.btnRow} key={i}>
               {this.tabIcon[i].map((subItem, index) => {
                 return (
-                  <TouchableOpacity style={style.headerTouch} key={index}>
+                  <TouchableOpacity style={style.headerTouch} key={index} onPress={()=>{this.onHeaderItemClick(this.tabNames[i][index])}}>
                     <Icon name={this.tabIcon[i][index]} size={40} color={this.tabColor[i][index]}/>
                     <Text style={style.headerText}>{this.tabNames[i][index]}</Text>
                   </TouchableOpacity>
@@ -137,9 +137,14 @@ class Discover extends React.Component {
   };
 
   _onItemPress = (item) => {
-    // this.props.navigation.navigate('WebViewPage', {uri: item.url})
-    this.props.navigator.jumpTo({name: "MainActivity"});
+    this.props.navigation.navigate('WebViewPage', {uri: item.url})
   };
+
+  onHeaderItemClick = (title)=>{
+    if (title === '福利'){
+      this.props.navigation.navigate('GirlsPage');
+    }
+  }
 }
 
 const style = StyleSheet.create({
