@@ -13,7 +13,8 @@ import {
   ActivityIndicator,
   Modal,
   ViewPagerAndroid,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native'
 import * as Actions from '../actions/RequestCategoryData'
 import { connect } from 'react-redux'
@@ -35,7 +36,6 @@ class GirlsPage extends React.Component {
     this.state = ({
       modalVisible: false,
       clickItemIndex: 0,
-      modalItemLoading: false,
       viewPageCurrentIndex: 0,
     })
   }
@@ -84,7 +84,7 @@ class GirlsPage extends React.Component {
                 this.props.dataSource.map((value, index) => {
                   return (
                     <View key={index}>
-                      <TouchableOpacity
+                      <TouchableWithoutFeedback
                         style={{ flex: 1 }}
                         onPress={() => {this.setState({ modalVisible: false })}}
                       >
@@ -92,19 +92,8 @@ class GirlsPage extends React.Component {
                           style={{ flex: 1 }}
                           resizeMode={'cover'}
                           source={{ uri: value.url }}
-                          onLoadStart={() => this.setState({ modalItemLoading: true })}
-                          onLoadEnd={() => this.setState({ modalItemLoading: false })}
                         />
-                      </TouchableOpacity>
-                      {
-                        this.state.modalItemLoading ?
-                          <ActivityIndicator
-                            size={'large'}
-                            style={{ position: 'absolute',bottom:height, top: 0,left:0,right:width}}
-
-                          />
-                          : null
-                      }
+                      </TouchableWithoutFeedback>
                     </View>
                   )
                 })
@@ -118,11 +107,10 @@ class GirlsPage extends React.Component {
                 backgroundColor: '#11111180',
                 position: 'absolute',
                 bottom: 10,
-                left: 0,
-                right: 0
+                alignSelf:'center',
+                paddingHorizontal:10
               }}
-              textAlign:'center'
-            >{`${this.state.viewPageCurrentIndex}/${this.props.dataSource.length}`}</Text>
+            >{`${this.state.viewPageCurrentIndex + 1}/${this.props.dataSource.length}`}</Text>
           </View>
         </Modal>
       </View>

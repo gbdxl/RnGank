@@ -44,7 +44,7 @@ export default class WebViewPage extends React.Component {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size='large'/>
-        <Text style={{fontSize: 16, color: config.themeColor}}>拼命加载中...</Text>
+        <Text style={{fontSize: 16, color: config.themeColor,marginTop:10}}>拼命加载中...</Text>
       </View>
     )
   }

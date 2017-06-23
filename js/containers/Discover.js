@@ -51,7 +51,6 @@ class Discover extends React.Component {
         ListHeaderComponent={this._renderHeader}
         ListFooterComponent={this._renderFooter}
         ItemSeparatorComponent={this._renderSeparator}
-        contentContainerStyle={{ backgroundColor: 'white' }}
         renderItem={this._renderItem}
         refreshing={this.props.loading}
         onRefresh={this._onRefresh}
@@ -108,10 +107,11 @@ class Discover extends React.Component {
 
   _renderFooter = () => {
     return (
-      this.props.isRenderFooter ? <View style={style.footer}>
-        <ActivityIndicator color={config.themeColor} size='small'/>
-        <Text style={{ fontSize: 14, color: 'gray', marginLeft: 5 }}>加载更多数据中...</Text>
-      </View> : null
+      this.props.isRenderFooter ?
+        <View style={style.footer}>
+          <ActivityIndicator color={config.themeColor} size='small'/>
+          <Text style={{ fontSize: 14, color: 'gray', marginLeft: 5 }}>加载更多数据中...</Text>
+        </View> : null
     );
   };
 
@@ -121,14 +121,18 @@ class Discover extends React.Component {
         this.tabIcon.map((item, i) => {
           return (
             <View style={style.btnRow} key={i}>
-              {this.tabIcon[i].map((subItem, index) => {
-                return (
-                  <TouchableOpacity style={style.headerTouch} key={index} onPress={()=>{this.onHeaderItemClick(this.tabNames[i][index])}}>
-                    <Icon name={this.tabIcon[i][index]} size={40} color={this.tabColor[i][index]}/>
-                    <Text style={style.headerText}>{this.tabNames[i][index]}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+              {
+                this.tabIcon[i].map((subItem, index) => {
+                  return (
+                    <TouchableOpacity
+                      style={style.headerTouch}
+                      key={index}
+                      onPress={() => {this.onHeaderItemClick(this.tabNames[i][index])}}>
+                      <Icon name={this.tabIcon[i][index]} size={40} color={this.tabColor[i][index]}/>
+                      <Text style={style.headerText}>{this.tabNames[i][index]}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
             </View>
           )
         })
@@ -137,12 +141,14 @@ class Discover extends React.Component {
   };
 
   _onItemPress = (item) => {
-    this.props.navigation.navigate('WebViewPage', {uri: item.url})
+    this.props.navigation.navigate('WebViewPage', { uri: item.url })
   };
 
-  onHeaderItemClick = (title)=>{
-    if (title === '福利'){
+  onHeaderItemClick = (title) => {
+    if (title === '福利') {
       this.props.navigation.navigate('GirlsPage');
+    } else {
+      this.props.navigation.navigate('TextListPage', { title: title });
     }
   }
 }
@@ -178,8 +184,8 @@ const style = StyleSheet.create({
   },
   separator: {
     flex: 1,
-    height: 4,
-    backgroundColor: 'transparent',
+    height: 5,
+    backgroundColor: '#e9e9e9',
   },
   footer: {
     height: 50,
@@ -190,7 +196,15 @@ const style = StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    flexDirection: 'row'
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    marginHorizontal: 10,
+    borderRadius: 6,
+    shadowColor: 'gray',    // 设置阴影
+    shadowOffset: { width: 0.5, height: 0.5 },
+    shadowOpacity: 0.4,   // 透明度
+    shadowRadius: 1,
+    elevation: 2
   },
   itemTextContainer: {
     flex: 8,

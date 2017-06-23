@@ -10,6 +10,7 @@ import Discover from './containers/Discover'
 import Mine from './containers/Mine'
 import WebViewPage from './containers/WebViewPage'
 import GirlsPage from './containers/GirlsPage'
+import TextListPage from './containers/TextListPage'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class App extends React.Component {
@@ -63,6 +64,9 @@ const MainStack = StackNavigator({
   },
   GirlsPage: {
     screen: GirlsPage
+  },
+  TextListPage: {
+    screen: TextListPage
   }
 }, {
   headerMode: 'screen',
@@ -78,6 +82,7 @@ const MainStack = StackNavigator({
         backgroundColor: config.themeColor,
       };
     let headerLeft;
+    let headerRight;
     if (navigation.state.routeName !== 'Main') {
       headerLeft = (
         <TouchableOpacity onPress={() => {
@@ -86,11 +91,18 @@ const MainStack = StackNavigator({
           <View style={{ padding: 12 }}>
             <Icon name={'ios-arrow-back-outline'} size={25} color='white'/>
           </View>
-        </TouchableOpacity>)
+        </TouchableOpacity>);
+      headerRight = (
+        <TouchableOpacity >
+          <View style={{ padding: 12 }}>
+            <Icon name={'ios-bulb-outline'} size={25} color='white'/>
+          </View>
+        </TouchableOpacity>);
     }
     return {
       headerStyle,
       headerLeft,
+      headerRight,
       headerTitleStyle: {
         color: '#FFFFFF',
         fontSize: 20,
