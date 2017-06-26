@@ -81,8 +81,8 @@ const MainStack = StackNavigator({
       {
         backgroundColor: config.themeColor,
       };
-    let headerLeft;
-    let headerRight;
+    let headerLeft = <View/>;
+    let headerRight = <View/>;
     if (navigation.state.routeName !== 'Main') {
       headerLeft = (
         <TouchableOpacity onPress={() => {
@@ -90,12 +90,6 @@ const MainStack = StackNavigator({
         }}>
           <View style={{ padding: 12 }}>
             <Icon name={'ios-arrow-back-outline'} size={25} color='white'/>
-          </View>
-        </TouchableOpacity>);
-      headerRight = (
-        <TouchableOpacity >
-          <View style={{ padding: 12 }}>
-            <Icon name={'ios-bulb-outline'} size={25} color='white'/>
           </View>
         </TouchableOpacity>);
     }
@@ -107,7 +101,8 @@ const MainStack = StackNavigator({
         color: '#FFFFFF',
         fontSize: 20,
         alignSelf: 'center',
-      }
+      },
+      gesturesEnabled:true
     }
   }
 });

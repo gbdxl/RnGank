@@ -119,11 +119,17 @@ class TextListPage extends React.Component {
 
 const style = StyleSheet.create({
   footer: {
-    height: 50,
+    height: 30,
     flexDirection: 'row',
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 10,
+    borderRadius: 10,
+    shadowColor: 'gray',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.1,
+    elevation: 5,
   },
   itemContainer: {
     flex: 1,

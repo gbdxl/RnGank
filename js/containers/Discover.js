@@ -58,6 +58,7 @@ class Discover extends React.Component {
         onEndReachedThreshold={0.5}
         data={this.props.dataSource}
         keyExtractor={(item, index) => index}
+        contentContainerStyle={{ marginBottom: 10 }}
       />
     </View>;
   };
@@ -159,8 +160,14 @@ const style = StyleSheet.create({
     height: 22,
   },
   headerContainer: {
-    marginVertical: 10,
+    margin: 10,
     backgroundColor: 'white',
+    borderRadius: 6,
+    shadowColor: 'gray',    // 设置阴影
+    shadowOffset: { width: 1, height: 1.5 },
+    shadowOpacity: 0.8,   // 透明度
+    shadowRadius: 1,
+    elevation: 2
   },
   btnRow: {
     justifyContent: 'space-around',
@@ -188,11 +195,17 @@ const style = StyleSheet.create({
     backgroundColor: '#e9e9e9',
   },
   footer: {
-    height: 50,
+    height: 30,
     flexDirection: 'row',
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 10,
+    borderRadius: 10,
+    shadowColor: 'gray',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.1,
+    elevation: 5,
   },
   itemContainer: {
     flex: 1,
@@ -232,7 +245,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     width: 60,
     height: 60,
-    marginRight: 10,
+    margin: 10,
     resizeMode: 'cover',
   }
 });
