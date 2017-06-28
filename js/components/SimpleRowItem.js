@@ -7,9 +7,9 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableWithoutFeedback
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import CommonPressView from './CommonPressView'
 
 export default class SimpleRowItem extends React.PureComponent {
 
@@ -35,7 +35,7 @@ export default class SimpleRowItem extends React.PureComponent {
   render() {
     const { title, icon, renderSeparator, iconColor, isShowRightIcon } = this.props;
     return (
-      <TouchableWithoutFeedback onpress={this.props.onPress}>
+      <CommonPressView onpress={this.props.onPress}>
         <View style={{ height: 40 }}>
           <View style={{ flexDirection: 'row', flex: 1 }}>
             <View style={style.introLeft}>
@@ -56,7 +56,7 @@ export default class SimpleRowItem extends React.PureComponent {
               null
           }
         </View>
-      </TouchableWithoutFeedback>
+      </CommonPressView>
     )
   }
 }
@@ -79,7 +79,7 @@ const style = StyleSheet.create({
     color: '#333333',
   },
   separator: {
-    backgroundColor: 'gray',
+    backgroundColor: '#e5e5e5',
     height: 0.5,
     marginHorizontal: 10,
   }
