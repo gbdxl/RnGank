@@ -20,7 +20,7 @@ class Home extends React.Component {
         source={require('../../assets/img/home.png')}
         style={[style.icon, {tintColor: tintColor}]}
       />
-    )
+    ),
   };
 
   constructor(props) {

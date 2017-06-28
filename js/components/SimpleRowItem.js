@@ -10,8 +10,9 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import CommonPressView from './CommonPressView'
+import { connect } from 'react-redux'
 
-export default class SimpleRowItem extends React.PureComponent {
+class SimpleRowItem extends React.PureComponent {
 
   static propTypes = {
     title: PropTypes.string.isRequired,
@@ -33,7 +34,7 @@ export default class SimpleRowItem extends React.PureComponent {
   }
 
   render() {
-    const { title, icon, renderSeparator, iconColor, isShowRightIcon } = this.props;
+    const { title, icon, renderSeparator, iconColor, isShowRightIcon, titleColor, separatorColor, arrowColor } = this.props;
     return (
       <CommonPressView onpress={this.props.onPress}>
         <View style={{ height: 40 }}>
@@ -42,16 +43,16 @@ export default class SimpleRowItem extends React.PureComponent {
               <Icon name={icon} color={iconColor} size={20}/>
             </View>
             <View style={style.introRight}>
-              <Text style={style.text}>{title}</Text>
+              <Text style={[style.text, { color: titleColor }]}>{title}</Text>
               {isShowRightIcon ?
-                <Icon name='ios-arrow-forward' color='gray' size={15}/>
+                <Icon name='ios-arrow-forward' color={arrowColor} size={15}/>
                 : null
               }
             </View>
           </View>
           {
             renderSeparator ?
-              <View style={style.separator}/>
+              <View style={[style.separator, { backgroundColor: separatorColor }]}/>
               :
               null
           }
@@ -84,3 +85,13 @@ const style = StyleSheet.create({
     marginHorizontal: 10,
   }
 })
+
+const mapStateToProps = (state) => {
+  return {
+    titleColor: state.settingState.colorScheme.titleColor,
+    separatorColor: state.settingState.colorScheme.separatorColor,
+    arrowColor: state.settingState.colorScheme.titleColor,
+  }
+}
+
+export default connect(mapStateToProps)(SimpleRowItem)

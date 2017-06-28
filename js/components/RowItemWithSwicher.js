@@ -11,8 +11,9 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import config from '../utils/Config'
+import { connect } from 'react-redux'
 
-export default class RowItemWithSwicher extends React.Component {
+class RowItemWithSwicher extends React.Component {
 
   static propTypes = {
     title: PropTypes.string.isRequired,
@@ -30,7 +31,7 @@ export default class RowItemWithSwicher extends React.Component {
   };
 
   render() {
-    const { title, renderSeparator, icon, iconColor, switcherValue, onValueChange } = this.props;
+    const { title, renderSeparator, icon, iconColor, switcherValue, onValueChange, titleColor, separatorColor, arrowColor } = this.props;
     return (
       <View style={{ height: 40 }}>
         <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -38,13 +39,13 @@ export default class RowItemWithSwicher extends React.Component {
             <Icon name={icon} color={iconColor} size={20}/>
           </View>
           <View style={style.introRight}>
-            <Text style={style.text}>{title}</Text>
-            <Switch onValueChange={onValueChange} value={switcherValue} tintColor={config.themeColor}/>
+            <Text style={[style.text, { color: titleColor }]}>{title}</Text>
+            <Switch onValueChange={onValueChange} value={switcherValue} tintColor={arrowColor}/>
           </View>
         </View>
         {
           renderSeparator ?
-            <View style={style.separator}/>
+            <View style={[style.separator, { backgroundColor: separatorColor }]}/>
             :
             null
         }
@@ -76,3 +77,13 @@ const style = StyleSheet.create({
     marginHorizontal: 10,
   }
 });
+
+const mapStateToProps = (state) => {
+  return {
+    titleColor: state.settingState.colorScheme.titleColor,
+    separatorColor: state.settingState.colorScheme.separatorColor,
+    arrowColor: state.settingState.colorScheme.titleColor,
+  }
+}
+
+export default connect(mapStateToProps)(RowItemWithSwicher)
