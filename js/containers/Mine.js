@@ -31,7 +31,7 @@ class Mine extends React.Component {
   }
 
   render() {
-    const { themeColor, pageBgColor, titleColor, rowItemBackgroundColor, isOpenNightMode } = this.props;
+    const { themeColor, pageBgColor, titleColor, rowItemBackgroundColor, isOpenNightMode, navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: pageBgColor }}>
         <View style={[style.nameBar, { backgroundColor: rowItemBackgroundColor }]}>
@@ -46,7 +46,8 @@ class Mine extends React.Component {
 
         <View style={{ backgroundColor: rowItemBackgroundColor }}>
           <RowItem title="首页内容展示顺序" icon="md-reorder" iconColor='lightskyblue' onPress={() => Toast.show('haha')}/>
-          <RowItem title="主题颜色" icon="ios-color-palette" iconColor='orange' onPress={() => Toast.show('hiahia')}/>
+          <RowItem title="主题颜色" icon="ios-color-palette" iconColor='orange'
+                   onPress={() => navigation.navigate('ThemeChangePage')}/>
           <RowItemWithSwicher title="夜间模式" icon="md-moon" iconColor="#7b68ee" switcherValue={isOpenNightMode}
                               onValueChange={(value) => this.props.setNightMode(value)}/>
           <RowItemWithSwicher title="显示列表缩略图" icon="md-browsers" iconColor="plum" switcherValue={true}

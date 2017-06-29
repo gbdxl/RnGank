@@ -36,7 +36,7 @@ class SimpleRowItem extends React.PureComponent {
   render() {
     const { title, icon, renderSeparator, iconColor, isShowRightIcon, titleColor, separatorColor, arrowColor } = this.props;
     return (
-      <CommonPressView onpress={this.props.onPress}>
+      <CommonPressView onPress={this.props.onPress}>
         <View style={{ height: 40 }}>
           <View style={{ flexDirection: 'row', flex: 1 }}>
             <View style={style.introLeft}>

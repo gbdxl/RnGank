@@ -53,7 +53,14 @@ export default function settingState(state = initialState, action) {
           tabIconColor: config.themeColor,
           thumbnailColor: '#f1f1f1',
         }
-      }
+      };
+    case TYPES.CHANGE_COLOR:
+      return{
+        colorScheme:{
+          ...state.colorScheme,
+          themeColor: action.color,
+        }
+      };
     default:
       return{
         ...state

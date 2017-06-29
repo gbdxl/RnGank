@@ -9,7 +9,12 @@ export function initSetting() {
   return (dispatch) => {
     const settingDao = new SettingDao();
     settingDao.getNightMode().then((isNightMode) => {
-      setNightMode(isNightMode)
+      setNightMode(isNightMode);
+      if (!isNightMode){
+        settingDao.getThemeColor().then((color)=>{
+          setThemeColor(color);
+        })
+      }
     })
   }
 }
@@ -23,5 +28,13 @@ export function setNightMode(value) {
     } else {
       return dispatch({ type: TYPES.CLOSE_NIGHT_MODE });
     }
+  }
+}
+
+export function setThemeColor(color) {
+  return (dispatch) => {
+    const settingDao = new SettingDao();
+    settingDao.setThemeColor(color);
+    return dispatch({ type: TYPES.CHANGE_COLOR, color: color });
   }
 }

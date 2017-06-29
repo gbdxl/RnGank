@@ -185,7 +185,7 @@ const style = StyleSheet.create({
   separator: {
     flex: 1,
     height: 5,
-    backgroundColor: '#e9e9e9',
+    marginHorizontal: 10,
   },
   itemContainer: {
     flex: 1,

@@ -10,6 +10,7 @@ import Mine from './containers/Mine'
 import WebViewPage from './containers/WebViewPage'
 import GirlsPage from './containers/GirlsPage'
 import TextListPage from './containers/TextListPage'
+import ThemeChangePage from './containers/ThemeChangePage'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import * as Actions from './actions/ModifySetting'
@@ -49,11 +50,11 @@ const mainTabCreator = (props) => {
     swipeEnabled: true,
     lazy: true,
     tabBarOptions: {
-      activeTintColor: props.tabIconColor,
+      activeTintColor: props.themeColor,
       inactiveTintColor:'gray',
       showIcon: true,
       style: {
-        backgroundColor: props.themeColor,
+        backgroundColor: props.rowItemBackgroundColor,
         height: 50,
       },
       indicatorStyle: { height: 0 },
@@ -79,6 +80,9 @@ const mainStackCreator = (props) => {
     },
     TextListPage: {
       screen: TextListPage
+    },
+    ThemeChangePage: {
+      screen: ThemeChangePage
     }
   }, {
     headerMode: 'screen',
@@ -125,6 +129,7 @@ const mapStateToProps = (state) => {
   return {
     themeColor: state.settingState.colorScheme.themeColor,
     tabIconColor: state.settingState.colorScheme.tabIconColor,
+    rowItemBackgroundColor: state.settingState.colorScheme.rowItemBackgroundColor,
   }
 };
 

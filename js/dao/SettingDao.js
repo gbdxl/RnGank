@@ -5,6 +5,7 @@
 import { AsyncStorage } from 'react-native'
 
 const NIGHT_MODE = '@NIGHT_MODE';
+const THEME_COLOR = '@THEME_COLOR';
 
 export default class SettingDao {
 
@@ -14,11 +15,24 @@ export default class SettingDao {
     } catch (error) {
 
     }
-  }
+  };
 
   getNightMode = () => {
     return new Promise((resolve) => {
       resolve(AsyncStorage.getItem(NIGHT_MODE));
     })
-  }
+  };
+
+  setThemeColor = (color) =>{
+    try {
+      AsyncStorage.setItem(THEME_COLOR, color);
+    } catch (error){
+    }
+  };
+
+  getThemeColor = () =>{
+    return new Promise((resolve)=>{
+      resolve(AsyncStorage.getItem(THEME_COLOR));
+    })
+  };
 }
