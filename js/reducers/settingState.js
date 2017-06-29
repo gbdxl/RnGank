@@ -15,7 +15,7 @@ const initialState = {
     subtitleColor: '#aaa',
     rowItemBackgroundColor: '#fff',
     arrowColor: '#ccc',
-    tabIconColor: config.themeColor,
+    tabIconColor: '#fff',
     thumbnailColor: '#f1f1f1',
   }
 };

@@ -19,8 +19,7 @@ import {
 import * as Actions from '../actions/RequestCategoryData'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import config from '../utils/Config'
-import Toast from 'react-native-root-toast'
+import Footer from '../components/Footer'
 
 const NORMAL_MARGIN = 5;
 const Dimensions = require('Dimensions');
@@ -50,11 +49,11 @@ class GirlsPage extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: this.props.pageBgColor }}>
         <AnimatedFlatList
           data={this.props.dataSource}
           renderItem={this.renderItem}
-          ListFooterComponent={this.renderFooter}
+          ListFooterComponent={this.props.isRenderFooter ? Footer : null}
           numColumns={2}
           onRefresh={this.refresh}
           onEndReached={this.loadMore}
@@ -107,8 +106,8 @@ class GirlsPage extends React.Component {
                 backgroundColor: '#11111180',
                 position: 'absolute',
                 bottom: 10,
-                alignSelf:'center',
-                paddingHorizontal:10
+                alignSelf: 'center',
+                paddingHorizontal: 10
               }}
             >{`${this.state.viewPageCurrentIndex + 1}/${this.props.dataSource.length}`}</Text>
           </View>
@@ -125,7 +124,7 @@ class GirlsPage extends React.Component {
         onPress={() => this.lookBigPic(index)}
       >
         <Image
-          style={style.itemImageStyle}
+          style={[style.itemImageStyle, { backgroundColor: this.props.rowItemBackgroundColor }]}
           resizeMode='cover'
           source={{ uri: this.changeImageToSmallSize(item.url) }}
 
@@ -144,15 +143,6 @@ class GirlsPage extends React.Component {
 
   changeImageToSmallSize = (url) => {
     return url.replace('large', 'small');
-  }
-
-  renderFooter = () => {
-    return (
-      this.props.isRenderFooter ? <View style={style.footer}>
-        <ActivityIndicator color={config.themeColor} size='small'/>
-        <Text style={{ fontSize: 14, color: 'gray', marginLeft: 5 }}>加载更多数据中...</Text>
-      </View> : null
-    );
   }
 
   refresh = () => {
@@ -174,13 +164,6 @@ const style = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 6,
   },
-  footer: {
-    height: 50,
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 })
 
 const mapStateToProps = (state) => {
@@ -191,6 +174,13 @@ const mapStateToProps = (state) => {
     pageNumber: state.categoryDataState.pageNumber,
     isFullData: state.categoryDataState.isFullData,
     error: state.categoryDataState.error,
+    themeColor: state.settingState.colorScheme.themeColor,
+    titleColor: state.settingState.colorScheme.titleColor,
+    pageBgColor: state.settingState.colorScheme.pageBgColor,
+    separatorColor: state.settingState.colorScheme.separatorColor,
+    rowItemBackgroundColor: state.settingState.colorScheme.rowItemBackgroundColor,
+    subTitleColor: state.settingState.colorScheme.subTitleColor,
+    tabIconColor: state.settingState.colorScheme.tabIconColor,
   }
 }
 

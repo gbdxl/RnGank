@@ -18,6 +18,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import config from '../utils/Config'
 import Icon from 'react-native-vector-icons/Ionicons'
+import Footer from '../components/Footer'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -40,30 +41,31 @@ class TextListPage extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: this.props.pageBgColor }}>
         <AnimatedFlatList
           data={this.props.dataSource}
           renderItem={this.renderItem}
-          ListFooterComponent={this.renderFooter}
+          ListFooterComponent={this.props.isRenderFooter ? Footer : null}
           ItemSeparatorComponent={this.renderSeparator}
           keyExtractor={(item, index) => index}
           onEndReached={this.loadMore}
           onEndReachedThreshold={0.5}
           onRefresh={this.refresh}
           refreshing={this.props.loading}
-          contentContainerStyle={{ margin: 10, backgroundColor: 'white', }}
+          contentContainerStyle={{ margin: 10 }}
         />
       </View>
     )
   }
 
   renderItem = ({ item }) => {
+    const { rowItemBackgroundColor, tabIconColor, titleColor } = this.props;
     return (
       <TouchableNativeFeedback
         overflow="hidden"
         onPress={() => this.onItemPress(item)}>
 
-        <View style={style.itemContainer}>
+        <View style={[style.itemContainer, { backgroundColor: rowItemBackgroundColor }]}>
           {(item.images) ?
             <Image style={style.itemImage} source={{ uri: item.images[0] }}/>
             :
@@ -71,15 +73,15 @@ class TextListPage extends React.Component {
           }
 
           <View style={style.itemTextContainer}>
-            <Text style={style.itemTextTitle} numberOfLines={2}>{item.desc}</Text>
+            <Text style={[style.itemTextTitle, { color: titleColor }]} numberOfLines={2}>{item.desc}</Text>
 
             <View style={style.itemSubTextContainer}>
-              <Icon name="ios-pricetag-outline" color='gray'/>
-              <Text style={style.itemSubText}>{item.type}</Text>
-              <Icon name="ios-create-outline" color='gray'/>
-              <Text style={style.itemSubText}>{item.who ? item.who : 'null'}</Text>
-              <Icon name="ios-time-outline" color='gray'/>
-              <Text style={style.itemSubText}>{item.publishedAt.substring(0, 10)}</Text>
+              <Icon name="ios-pricetag-outline" color={tabIconColor}/>
+              <Text style={[style.itemSubText, { color: titleColor }]}>{item.type}</Text>
+              <Icon name="ios-create-outline" color={tabIconColor}/>
+              <Text style={[style.itemSubText, { color: titleColor }]}>{item.who ? item.who : 'null'}</Text>
+              <Icon name="ios-time-outline" color={tabIconColor}/>
+              <Text style={[style.itemSubText, { color: titleColor }]}>{item.publishedAt.substring(0, 10)}</Text>
             </View>
           </View>
         </View>
@@ -90,17 +92,6 @@ class TextListPage extends React.Component {
   onItemPress = (item) => {
     this.props.navigation.navigate('WebViewPage', { uri: item.url })
   };
-
-  renderFooter = () => {
-    return (
-      this.props.isRenderFooter ?
-        <View style={style.footer}>
-          <ActivityIndicator color={config.themeColor} size='small'/>
-          <Text style={{ fontSize: 14, color: 'gray', marginLeft: 5 }}>加载更多数据中...</Text>
-        </View>
-        : null
-    );
-  }
 
   renderSeparator = () => {
     return <View style={{ flex: 1, height: 5, backgroundColor: '#e9e9e9' }}/>
@@ -118,19 +109,6 @@ class TextListPage extends React.Component {
 }
 
 const style = StyleSheet.create({
-  footer: {
-    height: 30,
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 10,
-    borderRadius: 10,
-    shadowColor: 'gray',
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.1,
-    elevation: 5,
-  },
   itemContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -150,6 +128,7 @@ const style = StyleSheet.create({
   itemTextTitle: {
     fontSize: 14,
     color: 'black',
+    marginTop: 10,
   },
   itemSubTextContainer: {
     flexDirection: 'row',
@@ -181,6 +160,12 @@ const mapStateToProps = (state) => {
     pageNumber: state.categoryDataState.pageNumber,
     isFullData: state.categoryDataState.isFullData,
     error: state.categoryDataState.error,
+    titleColor: state.settingState.colorScheme.titleColor,
+    pageBgColor: state.settingState.colorScheme.pageBgColor,
+    separatorColor: state.settingState.colorScheme.separatorColor,
+    rowItemBackgroundColor: state.settingState.colorScheme.rowItemBackgroundColor,
+    subTitleColor: state.settingState.colorScheme.subTitleColor,
+    tabIconColor: state.settingState.colorScheme.tabIconColor,
   }
 }
 

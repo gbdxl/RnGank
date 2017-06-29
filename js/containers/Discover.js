@@ -18,7 +18,8 @@ import config from '../utils/Config';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/requestRandomData';
-import WebViewPage from './WebViewPage'
+import WebViewPage from './WebViewPage';
+import Footer from '../components/Footer'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -49,7 +50,7 @@ class Discover extends React.Component {
     return <View style={{ flex: 1 }}>
       <AnimatedFlatList
         ListHeaderComponent={this._renderHeader}
-        ListFooterComponent={this._renderFooter}
+        ListFooterComponent={this.props.isRenderFooter ? Footer : null}
         ItemSeparatorComponent={this._renderSeparator}
         renderItem={this._renderItem}
         refreshing={this.props.loading}
@@ -58,7 +59,7 @@ class Discover extends React.Component {
         onEndReachedThreshold={0.5}
         data={this.props.dataSource}
         keyExtractor={(item, index) => index}
-        contentContainerStyle={{ marginBottom: 10 }}
+        contentContainerStyle={{ marginBottom: 10, backgroundColor: this.props.pageBgColor }}
       />
     </View>;
   };
@@ -74,21 +75,22 @@ class Discover extends React.Component {
   };
 
   _renderItem = ({ item }) => {
+    const { rowItemBackgroundColor, tabIconColor, titleColor } = this.props;
     return (
       <TouchableNativeFeedback
         overflow="hidden"
         onPress={() => this._onItemPress(item)}>
-        <View style={style.itemContainer}>
+        <View style={[style.itemContainer, { backgroundColor: rowItemBackgroundColor }]}>
           <View style={style.itemTextContainer}>
-            <Text style={style.itemTextTitle} numberOfLines={2}>{item.desc}</Text>
+            <Text style={[style.itemTextTitle, { color: titleColor }]} numberOfLines={2}>{item.desc}</Text>
 
             <View style={style.itemSubTextContainer}>
-              <Icon name="ios-pricetag-outline" color='gray'/>
-              <Text style={style.itemSubText}>{item.type}</Text>
-              <Icon name="ios-create-outline" color='gray'/>
-              <Text style={style.itemSubText}>{item.who ? item.who : 'null'}</Text>
-              <Icon name="ios-time-outline" color='gray'/>
-              <Text style={style.itemSubText}>{item.publishedAt.substring(0, 10)}</Text>
+              <Icon name="ios-pricetag-outline" color={tabIconColor}/>
+              <Text style={[style.itemSubText, { color: titleColor }]}>{item.type}</Text>
+              <Icon name="ios-create-outline" color={tabIconColor}/>
+              <Text style={[style.itemSubText, { color: titleColor }]}>{item.who ? item.who : 'null'}</Text>
+              <Icon name="ios-time-outline" color={tabIconColor}/>
+              <Text style={[style.itemSubText, { color: titleColor }]}>{item.publishedAt.substring(0, 10)}</Text>
             </View>
           </View>
 
@@ -103,21 +105,12 @@ class Discover extends React.Component {
   };
 
   _renderSeparator = () => {
-    return <View style={style.separator}/>
-  };
-
-  _renderFooter = () => {
-    return (
-      this.props.isRenderFooter ?
-        <View style={style.footer}>
-          <ActivityIndicator color={config.themeColor} size='small'/>
-          <Text style={{ fontSize: 14, color: 'gray', marginLeft: 5 }}>加载更多数据中...</Text>
-        </View> : null
-    );
+    return <View style={[style.separator, { backgroundColor: this.props.separatorColor }]}/>
   };
 
   _renderHeader = () => {
-    return <View style={style.headerContainer}>
+    const { subTitleColor, rowItemBackgroundColor } = this.props;
+    return <View style={[style.headerContainer, { backgroundColor: rowItemBackgroundColor }]}>
       {
         this.tabIcon.map((item, i) => {
           return (
@@ -130,7 +123,7 @@ class Discover extends React.Component {
                       key={index}
                       onPress={() => {this.onHeaderItemClick(this.tabNames[i][index])}}>
                       <Icon name={this.tabIcon[i][index]} size={40} color={this.tabColor[i][index]}/>
-                      <Text style={style.headerText}>{this.tabNames[i][index]}</Text>
+                      <Text style={[style.headerText, { color: subTitleColor }]}>{this.tabNames[i][index]}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -194,19 +187,6 @@ const style = StyleSheet.create({
     height: 5,
     backgroundColor: '#e9e9e9',
   },
-  footer: {
-    height: 30,
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 10,
-    borderRadius: 10,
-    shadowColor: 'gray',
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.1,
-    elevation: 5,
-  },
   itemContainer: {
     flex: 1,
     backgroundColor: 'white',
@@ -231,7 +211,7 @@ const style = StyleSheet.create({
   },
   itemSubTextContainer: {
     flexDirection: 'row',
-    marginVertical: 15,
+    marginTop: 15,
   },
   itemSubText: {
     fontSize: 10,
@@ -256,7 +236,13 @@ const mapStateToProps = (state) => {
     dataSource: state.randomDataState.dataSource,
     loading: state.randomDataState.loading,
     error: state.randomDataState.error,
-    isRenderFooter: state.randomDataState.isRenderFooter
+    isRenderFooter: state.randomDataState.isRenderFooter,
+    titleColor: state.settingState.colorScheme.titleColor,
+    pageBgColor: state.settingState.colorScheme.pageBgColor,
+    separatorColor: state.settingState.colorScheme.separatorColor,
+    rowItemBackgroundColor: state.settingState.colorScheme.rowItemBackgroundColor,
+    subTitleColor: state.settingState.colorScheme.subTitleColor,
+    tabIconColor: state.settingState.colorScheme.tabIconColor,
   };
 };
 

@@ -31,7 +31,7 @@ class Mine extends React.Component {
   }
 
   render() {
-    const { themeColor, pageBgColor, separatorColor, titleColor, rowItemBackgroundColor, arrowColor, isOpenNightMode } = this.props;
+    const { themeColor, pageBgColor, titleColor, rowItemBackgroundColor, isOpenNightMode } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: pageBgColor }}>
         <View style={[style.nameBar, { backgroundColor: rowItemBackgroundColor }]}>
