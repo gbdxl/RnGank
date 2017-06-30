@@ -105,7 +105,7 @@ class Discover extends React.Component {
   };
 
   _renderSeparator = () => {
-    return <View style={[style.separator, { backgroundColor: this.props.separatorColor }]}/>
+    return <View style={[style.separator, { backgroundColor: this.props.pageBgColor }]}/>
   };
 
   _renderHeader = () => {

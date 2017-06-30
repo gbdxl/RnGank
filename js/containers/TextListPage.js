@@ -94,7 +94,7 @@ class TextListPage extends React.Component {
   };
 
   renderSeparator = () => {
-    return <View style={{ flex: 1, height: 5, backgroundColor: '#e9e9e9' }}/>
+    return <View style={{ flex: 1, height: 5, backgroundColor: this.props.pageBgColor }}/>
   }
 
   refresh = () => {
