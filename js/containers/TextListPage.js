@@ -10,13 +10,12 @@ import {
   Image,
   FlatList,
   Animated,
-  ActivityIndicator,
+  RefreshControl,
   TouchableNativeFeedback,
 } from 'react-native'
 import * as Actions from '../actions/RequestCategoryData'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import config from '../utils/Config'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Footer from '../components/Footer'
 
@@ -50,9 +49,16 @@ class TextListPage extends React.Component {
           keyExtractor={(item, index) => index}
           onEndReached={this.loadMore}
           onEndReachedThreshold={0.5}
-          onRefresh={this.refresh}
-          refreshing={this.props.loading}
           contentContainerStyle={{ margin: 10 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.loading}
+              onRefresh={this.onRefresh}
+              tintColor={this.props.themeColor}
+              colors={[this.props.themeColor]}
+              progressBackgroundColor={'white'}
+            />
+          }
         />
       </View>
     )

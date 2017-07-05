@@ -43,7 +43,7 @@ export default function settingState(state = initialState, action) {
         ...state,
         isOpenNightMode: false,
         colorScheme: {
-          themeColor: config.themeColor,
+          themeColor: action.themeColor,
           pageBgColor: '#f4f4f4',
           separatorColor: '#ccc',
           titleColor: '#000',

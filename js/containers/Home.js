@@ -2,12 +2,13 @@
  * Created by drmk on 2017/6/9.
  */
 import React from 'react';
-import { StyleSheet, View, Text, Image, Button, SectionList, Animated, ToastAndroid } from 'react-native';
+import { StyleSheet, View, Text, Image, RefreshControl, SectionList, Animated, ToastAndroid } from 'react-native';
 import config from '../utils/Config';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/requestHomeData';
 import Icon from 'react-native-vector-icons/Ionicons'
+import CommonPressView from '../components/CommonPressView'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
@@ -35,14 +36,12 @@ class Home extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1,backgroundColor: this.props.pageBgColor }}>
+      <View style={{ flex: 1, backgroundColor: this.props.pageBgColor }}>
         <AnimatedSectionList
-          ListHeaderComponent={this._homeHeader}
-          ItemSeparatorComponent={this._separator}
-          renderItem={this._renderItem}
-          renderSectionHeader={this._renderSectionHeader}
-          refreshing={this.props.loading}
-          onRefresh={this._onRefresh}
+          ListHeaderComponent={this.homeHeader}
+          ItemSeparatorComponent={this.separator}
+          renderItem={this.renderItem}
+          renderSectionHeader={this.renderSectionHeader}
           sections={[
             { data: this.props.androidData, key: 0, title: "Android" },
             { data: this.props.iosData, key: 1, title: "ios" },
@@ -58,42 +57,57 @@ class Home extends React.Component {
               { data: this.props.recommendData, key: 6, title: "瞎推荐" } : null
           ]}
           keyExtractor={(item, index) => index}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.loading}
+              onRefresh={this.onRefresh}
+              tintColor={this.props.themeColor}
+              colors={[this.props.themeColor]}
+              progressBackgroundColor={'white'}
+            />
+          }
         />
       </View>
     );
   };
 
-  _onRefresh = () => {
+  onRefresh = () => {
     this.props.actions.fetchData();
   };
 
-  _renderItem = (info) => {
+  renderItem = ({ item }) => {
     const { titleColor, rowItemBackgroundColor } = this.props;
     return (
-      <View style={{ flex: 1, backgroundColor: rowItemBackgroundColor }}
-            onPress={(info) => {this.props.nativegation.navigate('WebViewPage')}}>
-        <Text style={[style.itemText, { color, titleColor }]}>{info.item.desc}</Text>
-      </View>
+      <CommonPressView onPress={() => this.onItemClick(item)}>
+        <View style={[style.itemContainer, { backgroundColor: rowItemBackgroundColor }]}>
+          <Text style={[style.itemText, { color: titleColor }]}>{item.desc}</Text>
+        </View>
+      </CommonPressView>
     );
   };
 
-  _renderSectionHeader = ({ section }) => {
+  onItemClick = (item) => {
+    {this.props.navigation.navigate('WebViewPage', { uri: item.url })}
+  }
+
+  renderSectionHeader = ({ section }) => {
     const { titleColor, rowItemBackgroundColor } = this.props;
     return (
       section.data && section.data.length > 0 ?
-        <View style={[style.sectionHeader, { backgroundColor: rowItemBackgroundColor }]}>
+        <View
+          style={[style.itemContainer, { backgroundColor: rowItemBackgroundColor, marginVertical: 10, padding: 10 }]}>
           <Icon name={this.tabIcon[section.key]} color={this.tabColor[section.key]} size={30}/>
-          <Text style={[style.sectionTitle, { color, titleColor }]}>{section.title}</Text>
+          <Text style={[style.sectionTitle, { color: titleColor }]}>{section.title}</Text>
         </View>
         : null
     );
   };
 
-  _separator = () => {
-    return <View style={{ flex: 1, backgroundColor: this.props.separatorColor, height: 0.5 }}/>;
+  separator = () => {
+    return <View style={{ flex: 1, backgroundColor: this.props.pageBgColor, height: 5 }}/>;
   };
 
-  _homeHeader = () => {
+  homeHeader = () => {
     return (
       this.props.headerUrl ?
         <Image style={style.header} source={{ uri: this.props.headerUrl }}/>
@@ -125,16 +139,27 @@ const style = StyleSheet.create({
   sectionHeader: {
     flex: 1,
     flexDirection: 'row',
-    marginLeft: 20,
-    paddingVertical: 10,
+    paddingLeft: 20,
+    margin: 10,
   },
   sectionTitle: {
     fontSize: 18,
     color: config.themeColor,
     marginLeft: 15,
     alignSelf: 'center'
-
-  }
+  },
+  itemContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    marginHorizontal: 10,
+    borderRadius: 6,
+    shadowColor: 'gray',    // 设置阴影
+    shadowOffset: { width: 0.5, height: 0.5 },
+    shadowOpacity: 0.4,   // 透明度
+    shadowRadius: 1,
+    elevation: 2
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -150,6 +175,7 @@ const mapStateToProps = (state) => {
     foregroundData: state.homeDataState.foregroundData,
     loading: state.homeDataState.loading,
     isUpdate: state.homeDataState.isUpdate,
+    themeColor: state.settingState.colorScheme.themeColor,
     titleColor: state.settingState.colorScheme.titleColor,
     pageBgColor: state.settingState.colorScheme.pageBgColor,
     separatorColor: state.settingState.colorScheme.separatorColor,

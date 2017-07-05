@@ -57,8 +57,8 @@ class Mine extends React.Component {
         </View>
         <View style={{ height: 15 }}/>
         <View style={{ backgroundColor: rowItemBackgroundColor }}>
-          <RowItem title="反馈" icon='md-text' iconColor='lightskyblue' onpress={() => {Toast.show('反馈')}}/>
-          <RowItem title="分享" icon='md-share' iconColor='lightskyblue' onpress={() => this.share}/>
+          <RowItem title="反馈" icon='md-text' iconColor='lightskyblue' onPress={() => {Toast.show('反馈')}}/>
+          <RowItem title="分享" icon='md-share' iconColor='lightskyblue' onPress={() => this.share()}/>
         </View>
 
       </View>
@@ -67,9 +67,10 @@ class Mine extends React.Component {
 
   share = () => {
     Share.share({
-      message: 'GANKGANKGANK',
-      url: 'https://github.com/xialei92/RnGank'
-    }).catch((error) => {Toast.show('分享失败');})
+      message: 'https://github.com/xialei92/RnGank',
+      url: 'https://github.com/xialei92/RnGank',
+      title: 'GANKGANKGANK'
+    }).then((result)=>{}).catch((error) => {Toast.show('分享失败');})
   }
 }
 

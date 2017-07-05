@@ -38,6 +38,7 @@ export function fetchLocalHomeData() {
     let dao = new HomeDao();
     dao.getLocalData().then((data) => {
       dispatch(fetchSuccess(data.content));
+      Toast.show("今日已经更新过了");
     }).catch((error) => {
       dispatch(fetchData());
     })
@@ -46,14 +47,14 @@ export function fetchLocalHomeData() {
 
 export function fetchData() {
   const url = fetchUrl.daily + getCurrentDate();
-
+  let dao = new HomeDao();
   function fetchDataFromNet(dispatch) {
     fetchWithTimeout(5000, fetch(url))
       .then((response) => response.json())
       .then((data) => {
         if (isValidData(data)) {
           Toast.show("欢迎阅读今日干货");
-          // data.saveData(data);
+          dao.saveData(data);
           dispatch(fetchSuccess(data));
         } else {
           Toast.show("今日干货尚未更新");

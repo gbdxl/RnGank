@@ -62,7 +62,7 @@ const mainTabCreator = (props) => {
         fontSize: 9,
         margin: 0,
       },
-    }
+    },
   });
 };
 

@@ -11,7 +11,7 @@ import {
   FlatList,
   Animated,
   TouchableNativeFeedback,
-  ActivityIndicator
+  RefreshControl
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import config from '../utils/Config';
@@ -49,32 +49,39 @@ class Discover extends React.Component {
   render() {
     return <View style={{ flex: 1 }}>
       <AnimatedFlatList
-        ListHeaderComponent={this._renderHeader}
+        ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.props.isRenderFooter ? Footer : null}
-        ItemSeparatorComponent={this._renderSeparator}
-        renderItem={this._renderItem}
-        refreshing={this.props.loading}
-        onRefresh={this._onRefresh}
-        onEndReached={this._onLoadMore}
+        ItemSeparatorComponent={this.renderSeparator}
+        renderItem={this.renderItem}
+        onEndReached={this.onLoadMore}
         onEndReachedThreshold={0.5}
         data={this.props.dataSource}
         keyExtractor={(item, index) => index}
         contentContainerStyle={{ marginBottom: 10, backgroundColor: this.props.pageBgColor }}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.loading}
+            onRefresh={this.onRefresh}
+            tintColor={this.props.themeColor}
+            colors={[this.props.themeColor]}
+            progressBackgroundColor={'white'}
+          />
+        }
       />
     </View>;
   };
 
-  _onLoadMore = () => {
+  onLoadMore = () => {
     if (!this.props.isRenderFooter && !this.props.loading) {
       this.props.actions.fetchRandomData(true);
     }
   };
 
-  _onRefresh = () => {
+  onRefresh = () => {
     this.props.actions.fetchRandomData();
   };
 
-  _renderItem = ({ item }) => {
+  renderItem = ({ item }) => {
     const { rowItemBackgroundColor, tabIconColor, titleColor } = this.props;
     return (
       <TouchableNativeFeedback
@@ -104,11 +111,11 @@ class Discover extends React.Component {
     );
   };
 
-  _renderSeparator = () => {
+  renderSeparator = () => {
     return <View style={[style.separator, { backgroundColor: this.props.pageBgColor }]}/>
   };
 
-  _renderHeader = () => {
+  renderHeader = () => {
     const { subTitleColor, rowItemBackgroundColor } = this.props;
     return <View style={[style.headerContainer, { backgroundColor: rowItemBackgroundColor }]}>
       {
@@ -237,6 +244,7 @@ const mapStateToProps = (state) => {
     loading: state.randomDataState.loading,
     error: state.randomDataState.error,
     isRenderFooter: state.randomDataState.isRenderFooter,
+    themeColor: state.settingState.colorScheme.themeColor,
     titleColor: state.settingState.colorScheme.titleColor,
     pageBgColor: state.settingState.colorScheme.pageBgColor,
     separatorColor: state.settingState.colorScheme.separatorColor,
