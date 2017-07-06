@@ -34,19 +34,19 @@
 
 ## 截图
 
-![](https://github.com/xialei92/RnGank/assets/screenShot/home.png)
+![](https://github.com/xialei92/RnGank/blob/master/assets/screenShot/home.png)
 
-![](https://github.com/xialei92/RnGank/assets/screenShot/discover.png)
+![](https://github.com/xialei92/RnGank/blob/master/assets/screenShot/discover.png)
 
-![](https://github.com/xialei92/RnGank/assets/screenShot/mine.png)
+![](https://github.com/xialei92/RnGank/blob/master/assets/screenShot/mine.png)
 
-![](https://github.com/xialei92/RnGank/assets/screenShot/girls.png)
+![](https://github.com/xialei92/RnGank/blob/master/assets/screenShot/girls.png)
 
-![](https://github.com/xialei92/RnGank/assets/screenShot/theme.png)
+![](https://github.com/xialei92/RnGank/blob/master/assets/screenShot/theme.png)
 
-![](https://github.com/xialei92/RnGank/assets/screenShot/webview.png)
+![](https://github.com/xialei92/RnGank/blob/master/assets/screenShot/webview.png)
 
-![](https://github.com/xialei92/RnGank/assets/screenShot/share.png)
+![](https://github.com/xialei92/RnGank/blob/master/assets/screenShot/share.png)
 ## 致谢
 
 感谢Gank.io提供API接口支持
