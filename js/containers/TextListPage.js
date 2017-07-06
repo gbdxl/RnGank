@@ -11,13 +11,13 @@ import {
   FlatList,
   Animated,
   RefreshControl,
-  TouchableNativeFeedback,
 } from 'react-native'
 import * as Actions from '../actions/RequestCategoryData'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Footer from '../components/Footer'
+import CommonPressView from '../components/CommonPressView'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -67,7 +67,7 @@ class TextListPage extends React.Component {
   renderItem = ({ item }) => {
     const { rowItemBackgroundColor, tabIconColor, titleColor } = this.props;
     return (
-      <TouchableNativeFeedback
+      <CommonPressView
         overflow="hidden"
         onPress={() => this.onItemPress(item)}>
 
@@ -91,7 +91,7 @@ class TextListPage extends React.Component {
             </View>
           </View>
         </View>
-      </TouchableNativeFeedback>
+      </CommonPressView>
     );
   };
 
@@ -103,7 +103,7 @@ class TextListPage extends React.Component {
     return <View style={{ flex: 1, height: 5, backgroundColor: this.props.pageBgColor }}/>
   }
 
-  refresh = () => {
+  onRefresh = () => {
     this.props.actions.fetchData(`${this.title}/20/1`);
   }
 
@@ -166,6 +166,7 @@ const mapStateToProps = (state) => {
     pageNumber: state.categoryDataState.pageNumber,
     isFullData: state.categoryDataState.isFullData,
     error: state.categoryDataState.error,
+    themeColor: state.settingState.colorScheme.themeColor,
     titleColor: state.settingState.colorScheme.titleColor,
     pageBgColor: state.settingState.colorScheme.pageBgColor,
     separatorColor: state.settingState.colorScheme.separatorColor,

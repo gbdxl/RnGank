@@ -10,16 +10,15 @@ import {
   Image,
   FlatList,
   Animated,
-  TouchableNativeFeedback,
   RefreshControl
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
-import config from '../utils/Config';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/requestRandomData';
 import WebViewPage from './WebViewPage';
 import Footer from '../components/Footer'
+import CommonPressView from '../components/CommonPressView'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -84,7 +83,7 @@ class Discover extends React.Component {
   renderItem = ({ item }) => {
     const { rowItemBackgroundColor, tabIconColor, titleColor } = this.props;
     return (
-      <TouchableNativeFeedback
+      <CommonPressView
         overflow="hidden"
         onPress={() => this._onItemPress(item)}>
         <View style={[style.itemContainer, { backgroundColor: rowItemBackgroundColor }]}>
@@ -107,7 +106,7 @@ class Discover extends React.Component {
             <Image style={style.itemImage} source={require('../../assets/img/user_article_no_data.png')}/>
           }
         </View>
-      </TouchableNativeFeedback>
+      </CommonPressView>
     );
   };
 

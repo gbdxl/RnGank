@@ -4,9 +4,7 @@
 'use strict';
 import React, { PropTypes } from 'react'
 import {
-  StyleSheet,
-  View,
-  TouchableHighlight,
+  TouchableOpacity,
   TouchableNativeFeedback,
   Platform
 } from 'react-native'
@@ -20,7 +18,7 @@ export default class CommonPressView extends React.Component {
   render() {
     return (
       Platform.OS === 'ios' ?
-        <TouchableHighlight
+        <TouchableOpacity
           {...this.props}
           onPress={this.props.onPress}
         />

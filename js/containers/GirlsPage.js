@@ -8,11 +8,9 @@ import {
   View,
   FlatList,
   Image,
-  Text,
   Animated,
-  ActivityIndicator,
+  RefreshControl,
   Modal,
-  ViewPagerAndroid,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native'
@@ -34,8 +32,7 @@ class GirlsPage extends React.Component {
     super(props)
     this.state = ({
       modalVisible: false,
-      clickItemIndex: 0,
-      viewPageCurrentIndex: 0,
+      selectImage: '',
     })
   }
 
@@ -55,62 +52,41 @@ class GirlsPage extends React.Component {
           renderItem={this.renderItem}
           ListFooterComponent={this.props.isRenderFooter ? Footer : null}
           numColumns={2}
-          onRefresh={this.refresh}
           onEndReached={this.loadMore}
           onEndReachedThreshold={0.5}
-          refreshing={this.props.loading}
           keyExtractor={(item, index) => index}
           initialNumToRender={6}
           columnWrapperStyle={{
             marginHorizontal: NORMAL_MARGIN,
             marginTop: NORMAL_MARGIN,
           }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.loading}
+              onRefresh={this.onRefresh}
+              tintColor={this.props.themeColor}
+              colors={[this.props.themeColor]}
+              progressBackgroundColor={'white'}
+            />
+          }
         />
         <Modal
+          style={{ flex: 1 }}
           animationType={'fade'}
           transparent={true}
           visible={this.state.modalVisible}
           onShow={() => {}}
           onRequestClose={() => {}}
         >
-          <View style={{ flex: 1 }}>
-            <ViewPagerAndroid
-              initialPage={this.state.clickItemIndex}
-              style={{ flex: 1 }}
-              onPageSelected={({ nativeEvent }) => this.onPageSelected(nativeEvent)}
+          <TouchableWithoutFeedback
+            onPress={() => this.setState({ modalVisible: false })}
             >
-              {
-                this.props.dataSource.map((value, index) => {
-                  return (
-                    <View key={index}>
-                      <TouchableWithoutFeedback
-                        style={{ flex: 1 }}
-                        onPress={() => {this.setState({ modalVisible: false })}}
-                      >
-                        <Image
-                          style={{ flex: 1 }}
-                          resizeMode={'cover'}
-                          source={{ uri: value.url }}
-                        />
-                      </TouchableWithoutFeedback>
-                    </View>
-                  )
-                })
-              }
-            </ViewPagerAndroid>
-            <Text
-              style={{
-                fontSize: 16,
-                color: 'white',
-                alignItems: 'center',
-                backgroundColor: '#11111180',
-                position: 'absolute',
-                bottom: 10,
-                alignSelf: 'center',
-                paddingHorizontal: 10
-              }}
-            >{`${this.state.viewPageCurrentIndex + 1}/${this.props.dataSource.length}`}</Text>
-          </View>
+            <Image
+              style={{ flex: 1 }}
+              resizeMode={'cover'}
+              source={{ uri: this.state.selectImage }}
+            />
+          </TouchableWithoutFeedback>
         </Modal>
       </View>
     )
@@ -121,31 +97,26 @@ class GirlsPage extends React.Component {
     return (
       <TouchableOpacity
         style={isLeft ? { flex: 1 } : { marginLeft: NORMAL_MARGIN }}
-        onPress={() => this.lookBigPic(index)}
+        onPress={() => this.lookBigPic(item.url)}
       >
         <Image
           style={[style.itemImageStyle, { backgroundColor: this.props.rowItemBackgroundColor }]}
           resizeMode='cover'
           source={{ uri: this.changeImageToSmallSize(item.url) }}
-
         />
       </TouchableOpacity>
     )
   }
 
-  onPageSelected = (nativeEvent) => {
-    this.setState({ viewPageCurrentIndex: nativeEvent.position })
-  }
-
-  lookBigPic = (index) => {
-    this.setState({ modalVisible: true, clickItemIndex: index });
+  lookBigPic = (imageUrl) => {
+    this.setState({ modalVisible: true, selectImage: imageUrl });
   }
 
   changeImageToSmallSize = (url) => {
     return url.replace('large', 'small');
   }
 
-  refresh = () => {
+  onRefresh = () => {
     this.props.actions.fetchData('福利/20/1');
   }
 

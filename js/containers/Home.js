@@ -42,6 +42,7 @@ class Home extends React.Component {
           ItemSeparatorComponent={this.separator}
           renderItem={this.renderItem}
           renderSectionHeader={this.renderSectionHeader}
+          stickySectionHeadersEnabled={false}
           sections={[
             { data: this.props.androidData, key: 0, title: "Android" },
             { data: this.props.iosData, key: 1, title: "ios" },
@@ -87,7 +88,7 @@ class Home extends React.Component {
   };
 
   onItemClick = (item) => {
-    {this.props.navigation.navigate('WebViewPage', { uri: item.url })}
+    this.props.navigation.navigate('WebViewPage', { uri: item.url })
   }
 
   renderSectionHeader = ({ section }) => {
@@ -149,9 +150,8 @@ const style = StyleSheet.create({
     alignSelf: 'center'
   },
   itemContainer: {
-    flex: 1,
-    backgroundColor: 'white',
     flexDirection: 'row',
+    backgroundColor: 'white',
     marginHorizontal: 10,
     borderRadius: 6,
     shadowColor: 'gray',    // 设置阴影

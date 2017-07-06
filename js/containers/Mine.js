@@ -31,7 +31,7 @@ class Mine extends React.Component {
   }
 
   render() {
-    const { themeColor, pageBgColor, titleColor, rowItemBackgroundColor, isOpenNightMode, navigation } = this.props;
+    const { arrowColor, themeColor, pageBgColor, titleColor, rowItemBackgroundColor, isOpenNightMode, navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: pageBgColor }}>
         <View style={[style.nameBar, { backgroundColor: rowItemBackgroundColor }]}>
@@ -40,7 +40,7 @@ class Mine extends React.Component {
           </View>
           <View style={style.introRight}>
             <Text style={[style.gankText, { color: titleColor }]}>Gank.IO</Text>
-            <Icon name="ios-arrow-forward" color='gray' size={25}/>
+            <Icon name="ios-arrow-forward" color={arrowColor} size={25}/>
           </View>
         </View>
 
@@ -70,7 +70,7 @@ class Mine extends React.Component {
       message: 'https://github.com/xialei92/RnGank',
       url: 'https://github.com/xialei92/RnGank',
       title: 'GANKGANKGANK'
-    }).then((result)=>{}).catch((error) => {Toast.show('分享失败');})
+    }).then((result) => {}).catch((error) => {Toast.show('分享失败');})
   }
 }
 

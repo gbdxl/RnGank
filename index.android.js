@@ -9,9 +9,6 @@ import {Provider} from 'react-redux';
 import {store} from './js/store/index';
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View
 } from 'react-native';
 import App from './js/App'
 

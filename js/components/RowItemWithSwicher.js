@@ -31,7 +31,7 @@ class RowItemWithSwicher extends React.Component {
   };
 
   render() {
-    const { title, renderSeparator, icon, iconColor, switcherValue, onValueChange, titleColor, separatorColor, arrowColor } = this.props;
+    const { title, renderSeparator, icon, iconColor, switcherValue, onValueChange, titleColor, separatorColor, themeColor } = this.props;
     return (
       <View style={{ height: 40 }}>
         <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -40,7 +40,7 @@ class RowItemWithSwicher extends React.Component {
           </View>
           <View style={style.introRight}>
             <Text style={[style.text, { color: titleColor }]}>{title}</Text>
-            <Switch onValueChange={onValueChange} value={switcherValue} tintColor={arrowColor}/>
+            <Switch onValueChange={onValueChange} value={switcherValue} tintColor={themeColor}/>
           </View>
         </View>
         {
@@ -82,7 +82,8 @@ const mapStateToProps = (state) => {
   return {
     titleColor: state.settingState.colorScheme.titleColor,
     separatorColor: state.settingState.colorScheme.separatorColor,
-    arrowColor: state.settingState.colorScheme.titleColor,
+    arrowColor: state.settingState.colorScheme.arrowColor,
+    themeColor: state.settingState.colorScheme.themeColor,
   }
 }
 

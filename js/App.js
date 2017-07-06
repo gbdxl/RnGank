@@ -61,6 +61,7 @@ const mainTabCreator = (props) => {
       labelStyle: {
         fontSize: 9,
         margin: 0,
+        paddingBottom: 6
       },
     },
   });
