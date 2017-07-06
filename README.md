@@ -28,25 +28,25 @@
 
 - 适合想要学习最新版react-native
 
-- 使用react-navigation,实现Android title居中(默认不居中)
+- 使用react-navigation
 
 - 实现了主题选择，夜间模式
 
 ## 截图
 
-![](https://github.com/xialei92/RnGank/tree/master/assets/screenShot/home.png)
+![](https://github.com/xialei92/RnGank/assets/screenShot/home.png)
 
-![](https://github.com/xialei92/RnGank/tree/master/assets/screenShot/discover.png)
+![](https://github.com/xialei92/RnGank/assets/screenShot/discover.png)
 
-![](https://github.com/xialei92/RnGank/tree/master/assets/screenShot/mine.png)
+![](https://github.com/xialei92/RnGank/assets/screenShot/mine.png)
 
-![](https://github.com/xialei92/RnGank/tree/master/assets/screenShot/girls.png)
+![](https://github.com/xialei92/RnGank/assets/screenShot/girls.png)
 
-![](https://github.com/xialei92/RnGank/tree/master/assets/screenShot/theme.png)
+![](https://github.com/xialei92/RnGank/assets/screenShot/theme.png)
 
-![](https://github.com/xialei92/RnGank/tree/master/assets/screenShot/webview.png)
+![](https://github.com/xialei92/RnGank/assets/screenShot/webview.png)
 
-![](https://github.com/xialei92/RnGank/tree/master/assets/screenShot/share.png)
+![](https://github.com/xialei92/RnGank/assets/screenShot/share.png)
 ## 致谢
 
 感谢Gank.io提供API接口支持
